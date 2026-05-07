@@ -1,14 +1,12 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import jwt from 'jsonwebtoken';
-import { authController } from './controllers/auth.js';
+import authRoutes from './routes/auth.routes.js';
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
 
 // Middlewares
 app.use(cors({
@@ -19,44 +17,36 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Middleware de autenticação
-const authenticateToken = (req, res, next) => {
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
-
-  if (!token) {
-    return res.status(401).json({ error: 'Token não fornecido' });
-  }
-
-  jwt.verify(token, JWT_SECRET, (err, user) => {
-    if (err) {
-      return res.status(403).json({ error: 'Token inválido' });
-    }
-    req.user = user;
-    next();
-  });
-};
-
-// Rotas públicas
+// Health check
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'OK', timestamp: new Date().toISOString() });
+  res.json({ 
+    status: 'OK', 
+    timestamp: new Date().toISOString(),
+    message: 'Servidor está funcionando!'
+  });
 });
 
-app.post('/api/auth/register', authController.register);
-app.post('/api/auth/login', authController.login);
-
-// Rotas protegidas
-app.get('/api/auth/verify', authenticateToken, authController.verifyToken);
+// Rotas
+app.use('/api/auth', authRoutes);
 
 // 404
 app.use((req, res) => {
   res.status(404).json({ error: 'Rota não encontrada' });
 });
 
+// Error handler
+app.use((err, req, res, next) => {
+  console.error('Error:', err);
+  res.status(err.status || 500).json({
+    error: err.message || 'Erro interno do servidor'
+  });
+});
+
 // Iniciar servidor
 app.listen(PORT, () => {
-  console.log(`✅ Servidor rodando em http://localhost:${PORT}`);
+  console.log(`\n✅ Servidor rodando em http://localhost:${PORT}`);
   console.log(`📚 Health check: http://localhost:${PORT}/api/health`);
+  console.log(`🔐 Login: POST http://localhost:${PORT}/api/auth/login\n`);
 });
 
 export default app;
