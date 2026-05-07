@@ -11,4 +11,8 @@ const pool = new pg.Pool({
   database: process.env.POSTGRES_DB,
 });
 
+pool.on('error', (err) => {
+  console.error('Unexpected error on idle client', err);
+});
+
 export default pool;
