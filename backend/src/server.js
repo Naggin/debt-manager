@@ -2,6 +2,9 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import authRoutes from './routes/auth.routes.js';
+import debtRoutes from './routes/debt.routes.js';
+import simulatorRoutes from './routes/simulator.routes.js';
+import strategyRoutes from './routes/strategy.routes.js';
 
 dotenv.config();
 
@@ -28,6 +31,9 @@ app.get('/api/health', (req, res) => {
 
 // Rotas
 app.use('/api/auth', authRoutes);
+app.use('/api/debts', debtRoutes);
+app.use('/api/simulator', simulatorRoutes);
+app.use('/api/strategy', strategyRoutes);
 
 // 404
 app.use((req, res) => {
@@ -45,8 +51,16 @@ app.use((err, req, res, next) => {
 // Iniciar servidor
 app.listen(PORT, () => {
   console.log(`\n✅ Servidor rodando em http://localhost:${PORT}`);
-  console.log(`📚 Health check: http://localhost:${PORT}/api/health`);
-  console.log(`🔐 Login: POST http://localhost:${PORT}/api/auth/login\n`);
+  console.log(`📚 Endpoints disponíveis:`);
+  console.log(`   GET  /api/health`);
+  console.log(`   POST /api/auth/register`);
+  console.log(`   POST /api/auth/login`);
+  console.log(`   GET  /api/debts`);
+  console.log(`   POST /api/debts`);
+  console.log(`   PUT  /api/debts/:id`);
+  console.log(`   POST /api/simulator/calculate`);
+  console.log(`   POST /api/strategy/snowball`);
+  console.log(`   POST /api/strategy/avalanche\n`);
 });
 
 export default app;
