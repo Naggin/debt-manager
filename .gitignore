@@ -1,0 +1,38 @@
+# Node modules
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Build & dist
+dist/
+build/
+.next/
+.vite/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# OS
+Thumbs.db
+.AppleDouble
+.LSOverride
+
+# Logs
+logs/
+*.log
+lerna-debug.log*
+
+# Misc
+.cache/
+.parcel-cache
+coverage/
