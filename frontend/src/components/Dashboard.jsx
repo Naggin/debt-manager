@@ -7,13 +7,6 @@ import {
 import { formatCurrency, formatPercent } from '../services/calculations';
 import DebtForm from './DebtForm';
 
-const INITIAL_DEBTS = [
-  { id: 1, creditor_name: 'Nubank', current_balance: 2500, original_amount: 2500, monthly_interest_rate: 0.0399, due_date: '2024-12-01', status: 'active' },
-  { id: 2, creditor_name: 'PagBank', current_balance: 1800, original_amount: 1800, monthly_interest_rate: 0.0299, due_date: '2024-11-15', status: 'active' },
-  { id: 3, creditor_name: 'Banco do Brasil', current_balance: 5000, original_amount: 5200, monthly_interest_rate: 0.0199, due_date: '2025-01-01', status: 'active' },
-  { id: 4, creditor_name: 'Itaú', current_balance: 800, original_amount: 1000, monthly_interest_rate: 0.0249, due_date: '2024-10-15', status: 'active' }
-];
-
 const COLORS = ['#3b82f6', '#ef4444', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899'];
 
 const MetricCard = ({ title, value, color }) => {
@@ -31,8 +24,7 @@ const MetricCard = ({ title, value, color }) => {
   );
 };
 
-export default function Dashboard({ onGoToActionPlan }) {
-  const [debts, setDebts] = useState(INITIAL_DEBTS);
+export default function Dashboard({ debts, setDebts, onGoToActionPlan, onGoToSimulator }) {
   const [showForm, setShowForm] = useState(false);
   const [deletingId, setDeletingId] = useState(null);
 
@@ -199,7 +191,7 @@ export default function Dashboard({ onGoToActionPlan }) {
           <button onClick={onGoToActionPlan} className="bg-green-600 hover:bg-green-700 text-white font-medium py-2.5 px-5 rounded-lg transition-colors">
             🎯 Gerar Plano de Ação
           </button>
-          <button className="bg-purple-600 hover:bg-purple-700 text-white font-medium py-2.5 px-5 rounded-lg transition-colors">
+          <button onClick={onGoToSimulator} className="bg-purple-600 hover:bg-purple-700 text-white font-medium py-2.5 px-5 rounded-lg transition-colors">
             📊 Simular Pagamento
           </button>
         </div>

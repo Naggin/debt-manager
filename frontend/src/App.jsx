@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Dashboard from './components/Dashboard'
 import ActionPlan from './components/ActionPlan'
+import Simulator from './components/Simulator'
 
 function App() {
   const [page, setPage] = useState('dashboard')
@@ -18,12 +19,19 @@ function App() {
           debts={debts}
           setDebts={setDebts}
           onGoToActionPlan={() => setPage('actionplan')}
+          onGoToSimulator={() => setPage('simulator')}
         />
       )}
       {page === 'actionplan' && (
         <ActionPlan
           debts={debts}
           monthlyPayment={1000}
+          onBack={() => setPage('dashboard')}
+        />
+      )}
+      {page === 'simulator' && (
+        <Simulator
+          debts={debts}
           onBack={() => setPage('dashboard')}
         />
       )}
