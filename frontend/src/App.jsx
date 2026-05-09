@@ -1,10 +1,7 @@
 import Dashboard from './components/Dashboard'
-import './App.css'
 
 function App() {
-  return (
-    <Dashboard />
-  )
+  return <Dashboard />
 }
 
 export default App
