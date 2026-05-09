@@ -31,7 +31,7 @@ const MetricCard = ({ title, value, color }) => {
   );
 };
 
-export default function Dashboard() {
+export default function Dashboard({ onGoToActionPlan }) {
   const [debts, setDebts] = useState(INITIAL_DEBTS);
   const [showForm, setShowForm] = useState(false);
   const [deletingId, setDeletingId] = useState(null);
@@ -177,7 +177,7 @@ export default function Dashboard() {
                       {formatCurrency(d.current_balance * d.monthly_interest_rate)}
                     </td>
                     <td className="px-6 py-4 text-gray-700">
-                      {new Date(d.due_date).toLocaleDateString('pt-BR')}
+                      {new Date(d.due_date + 'T00:00:00').toLocaleDateString('pt-BR')}
                     </td>
                     <td className="px-6 py-4">
                       <button
@@ -196,7 +196,7 @@ export default function Dashboard() {
 
         {/* Ações */}
         <div className="flex gap-3 flex-wrap">
-          <button className="bg-green-600 hover:bg-green-700 text-white font-medium py-2.5 px-5 rounded-lg transition-colors">
+          <button onClick={onGoToActionPlan} className="bg-green-600 hover:bg-green-700 text-white font-medium py-2.5 px-5 rounded-lg transition-colors">
             🎯 Gerar Plano de Ação
           </button>
           <button className="bg-purple-600 hover:bg-purple-700 text-white font-medium py-2.5 px-5 rounded-lg transition-colors">
